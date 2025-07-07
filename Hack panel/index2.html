@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>HACKER PANEL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+  <style>
+    body {
+      background: #000;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      padding: 50px;
+    }
+    button {
+      background: #000;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #editor {
+      display: none;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💀 Войти в Хак-Панель</h1>
+  <button onclick="signIn()">Войти через Google</button>
+
+  <div id="user-info"></div>
+
+  <div id="editor">
+    <h2>Добро пожаловать, <span id="username"></span>!</h2>
+    <textarea style="width: 90%; height: 200px;">// Ваш код тут</textarea>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyB_1xXgj71yyUzihE52TGJRndi_dJ1cMkA",
+      authDomain: "hack-panel05.firebaseapp.com",
+      projectId: "hack-panel05",
+      storageBucket: "hack-panel05.firebasestorage.app",
+      messagingSenderId: "832217930313",
+      appId: "1:832217930313:web:225c47fe32897e6abafd98",
+      measurementId: "G-GVGGKEGD5L"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    function signIn() {
+      auth.signInWithPopup(provider)
+        .then(result => {
+          const user = result.user;
+          document.getElementById("user-info").innerHTML = `✅ Привет, ${user.displayName}`;
+          document.getElementById("username").textContent = user.displayName;
+          document.getElementById("editor").style.display = "block";
+        })
+        .catch(error => {
+          alert("Ошибка входа: " + error.message);
+        });
+    }
+  </script>
+</body>
+</html>
